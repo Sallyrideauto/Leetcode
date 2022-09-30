@@ -6,7 +6,8 @@
 
 class Solution:
     def isPalindrome(self, head: Optional[ListNode]) -> bool:
-        q: List = []
+        # 데크 자료형 선언
+        q: Deque = collections.deque()
         
         if not head:
             return True
@@ -20,7 +21,7 @@ class Solution:
             
         # 팰린드롬 판별
         while len(q) > 1:
-            if q.pop(0) != q.pop():
+            if q.popleft() != q.pop():
                 return False
             
         return True
