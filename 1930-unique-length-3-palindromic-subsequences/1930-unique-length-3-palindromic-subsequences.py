@@ -1,18 +1,23 @@
 class Solution:
     def countPalindromicSubsequence(self, s: str) -> int:
+        # 1. 각 문자의 처음과 마지막 등장 위치를 저장할 딕셔너리
+        first_pos = {}
+        last_pos = {}
         
-        # 결과를 저장할 변수
-        count = 0
+        # 2. 문자열을 순회하여 첫 등장과 마지막 등장 위치를 저장
+        for i, char in enumerate(s):
+            if char not in first_pos:
+                first_pos[char] = i
+            last_pos[char] = i
         
-        # 문자열에 있는 각 유니크한 문자에 대해서만 검사
-        for char in set(s):
-            # 현재 문자의 첫 등장 위치를 탐색
-            first_index = s.find(char)
-            # 현재 문자의 마지막 등장 위치 탐색
-            last_index = s.rfind(char)
-            
-            # 처음과 마지막 등장 사이에 있는 유니크한 문자들의 수를 세어 회문 개수 세기
-            if first_index != last_index:   # 두 인덱스가 다를 때만 가능한 회문 존재
-                count += len(set(s[first_index + 1 : last_index]))
-                
-        return count
+        # 3. 고유한 회문 부분 문자열의 개수를 계산
+        unique_palindromes = 0
+        for char in first_pos:
+            start = first_pos[char]
+            end = last_pos[char]
+            if start < end:  # 최소 길이가 3이 되어야 함
+                # 중간 문자 집합 계산
+                middle_chars = set(s[start + 1:end])
+                unique_palindromes += len(middle_chars)
+        
+        return unique_palindromes
